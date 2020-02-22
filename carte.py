@@ -9,7 +9,6 @@
    Ce module gère les cartes du labyrinthe. 
 """
 import random
-#Tony
 
 """
 la liste des caractères semi-graphiques correspondant aux différentes cartes
