@@ -18,6 +18,8 @@ def ListeJoueurs(nomsJoueurs):
     paramètre: nomsJoueurs une liste de chaines de caractères
     résultat: la liste des joueurs avec un joueur courant mis à 0
     """
+
+    
     pass
 
 def ajouterJoueur(joueurs, joueur):

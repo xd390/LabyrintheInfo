@@ -16,11 +16,9 @@ def Joueur(nom):
     retourne le joueur ainsi créé
     """
     joueur={}
-    joueur["name"] = nom
-    joueur["tresor"] = []
-    print(joueur)
+    joueur["name"]=nom
+    joueur["tresor"] = [1,2]
     return joueur
-    pass
 
 def ajouterTresor(joueur,tresor):
     """
@@ -30,17 +28,11 @@ def ajouterTresor(joueur,tresor):
         tresor un entier strictement positif
     la fonction ne retourne rien mais modifie le joueur
     """    
-    i=0
     existe=False
-    listedetresor=joueur["tresor"]
-    while i<len(joueur["tresor"]) or existe==True:
-      if tresor==listedetresor[i]:
-        existe=True 
-      i+=1
+    if tresor in joueur["tresor"]:
+      existe=True
     if existe==False:
-      listedetresor.append(tresor)
-      joueur["tresor"]=listedetresor
-    pass
+      joueur["tresor"].append(tresor)
 
 def prochainTresor(joueur):
     """
@@ -49,13 +41,10 @@ def prochainTresor(joueur):
         joueur le joueur
     résultat un entier représentant le trésor ou None
     """
-    listedetresor=joueur["tresor"]
-    if len(listedetresor)<1:
+    if len(joueur["tresor"])<1:
       return None
     else:
-      return listedetresor[0]
-    pass
-
+      return joueur["tresor"][0]
 
 def tresorTrouve(joueur):
     """ 
@@ -64,11 +53,8 @@ def tresorTrouve(joueur):
         joueur le joueur
     la fonction ne retourne rien mais modifie le joueur
     """
-    listedetresor=joueur["tresor"]
-    del listedetresor[0]
-    joueur["tresor"]=listedetresor
-    pass
-
+    del joueur["tresor"][0]
+    
 def getNbTresorsRestants(joueur):
     """
     retourne le nombre de trésors qu'il reste à trouver
@@ -77,7 +63,7 @@ def getNbTresorsRestants(joueur):
     """
     res=len(joueur["tresor"])
     return res
-    pass
+
 
 def getNom(joueur):
     """
@@ -87,4 +73,3 @@ def getNom(joueur):
     """
     res=joueur("name")
     return res
-    pass
