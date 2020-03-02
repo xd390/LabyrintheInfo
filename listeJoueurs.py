@@ -1,15 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    Projet Labyrinthe
-    Projet Python 2020 - Licence Informatique UNC (S3 TREC7)
-
-   Module listeJoueurs
-   ~~~~~~~~~~~~~~~~~~~
-   
-   Ce module gère la liste des joueurs. 
-"""
 import random
-from joueur import *
+import joueur
 
 def ListeJoueurs(nomsJoueurs):
     """
@@ -18,26 +8,36 @@ def ListeJoueurs(nomsJoueurs):
     paramètre: nomsJoueurs une liste de chaines de caractères
     résultat: la liste des joueurs avec un joueur courant mis à 0
     """
-
-    
+    joueurs=[]
+    i=0
+    while i<len(nomsJoueurs):
+      nom=joueur.Joueur(nomsJoueurs[i])
+      joueurs.append(nom)
+      print(joueurs)
+      i+=1
+    return joueurs
     pass
 
-def ajouterJoueur(joueurs, joueur):
+ListeJoueurs(["Anthony","Julien","Hector"])
+
+def ajouterJoueur(joueurs, joueur1):
     """
     ajoute un nouveau joueur à la fin de la liste
     paramètres: joueurs un liste de joueurs
                 joueur le joueur à ajouter
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    pass
-
+    nom=joueur.Joueur(joueur1)
+    joueurs.append(nom)
+ajouterJoueur(["Anthony","Julien","Hector"],"bertrand")
 def initAleatoireJoueurCourant(joueurs):
     """
     tire au sort le joueur courant
     paramètre: joueurs un liste de joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    pass
+    random.shuffle(joueurs)
+
 def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
     """
     distribue de manière aléatoire des trésors entre les joueurs.
@@ -50,97 +50,31 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
                              de trésor possible  
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    pass
-
-def changerJoueurCourant(joueurs):
-    """
-    passe au joueur suivant (change le joueur courant donc)
-    paramètres: joueurs la liste des joueurs
-    cette fonction ne retourne rien mais modifie la liste des joueurs
-    """   
-    pass
-
-def getNbJoueurs(joueurs):
-    """
-    retourne le nombre de joueurs participant à la partie
-    paramètre: joueurs la liste des joueurs
-    résultat: le nombre de joueurs de la partie
-    """
-    pass
-
-def getJoueurCourant(joueurs):
-    """
-    retourne le joueur courant
-    paramètre: joueurs la liste des joueurs
-    résultat: le joueur courant
-    """
-    pass
-
-def joueurCourantTrouveTresor(joueurs):
-    """
-    Met à jour le joueur courant lorsqu'il a trouvé un trésor
-    c-à-d enlève le trésor de sa liste de trésors à trouver
-    paramètre: joueurs la liste des joueurs
-    cette fonction ne retourne rien mais modifie la liste des joueurs
-    """
-    pass
-
-def nbTresorsRestantsJoueur(joueurs,numJoueur):
-    """
-    retourne le nombre de trésors restant pour le joueur dont le numéro 
-    est donné en paramètre
-    paramètres: joueurs la liste des joueurs
-                numJoueur le numéro du joueur
-    résultat: le nombre de trésors que joueur numJoueur doit encore trouver
-    """
-    pass
-
-def numJoueurCourant(joueurs):
-    """
-    retourne le numéro du joueur courant
-    paramètre: joueurs la liste des joueurs
-    résultat: le numéro du joueur courant
-    """
-    pass
-
-def nomJoueurCourant(joueurs):
-    """
-    retourne le nom du joueur courant
-    paramètre: joueurs la liste des joueurs
-    résultat: le nom du joueur courant
-    """
-    pass
-
-def nomJoueur(joueurs,numJoueur):
-    """
-    retourne le nom du joueur dont le numero est donné en paramètre
-    paramètres: joueurs la liste des joueurs
-                numJoueur le numéro du joueur    
-    résultat: le nom du joueur numJoueur
-    """
-    pass
-
-def prochainTresorJoueur(joueurs,numJoueur):
-    """
-    retourne le trésor courant du joueur dont le numero est donné en paramètre
-    paramètres: joueurs la liste des joueurs
-                numJoueur le numéro du joueur    
-    résultat: le prochain trésor du joueur numJoueur (un entier)
-    """
-    pass
-
-def tresorCourant(joueurs):
-    """
-    retourne le trésor courant du joueur courant
-    paramètre: joueurs la liste des joueurs 
-    résultat: le prochain trésor du joueur courant (un entier)
-    """
-    pass
-
-def joueurCourantAFini(joueurs):
-    """
-    indique si le joueur courant a gagné
-    paramètre: joueurs la liste des joueurs 
-    résultat: un booleen indiquant si le joueur courant a fini
-    """
-    pass
+    Tresors= list(range(1,nbTresors+1))
+    random.shuffle(Tresors)
+    if nbTresorMax==0:
+      i=0
+      out=False
+      while i<len(Tresors):
+        cpt=0
+        while cpt<len(joueurs) and out==False:
+          joueur.ajouterTresor(joueurs[cpt],Tresors[i])
+          cpt+=1
+          if i>len(Tresors):
+            out=True
+          i+=1
+    if nbTresorMax!=0:
+      if len(joueurs)*nbTresorMax>nbTresors:
+        print("il n'y a pas assez de trésor")
+      i=0
+      out=False
+      while i<(len(joueurs)*nbTresorMax):
+        cpt=0
+        while cpt<len(joueurs) and out==False:
+          joueur.ajouterTresor(joueurs[cpt],Tresors[i])
+          cpt+=1
+          if i>len(Tresors):
+            out=True
+          i+=1
+    print(joueurs)
+      

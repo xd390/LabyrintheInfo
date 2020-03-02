@@ -17,7 +17,7 @@ def Joueur(nom):
     """
     joueur={}
     joueur["name"]=nom
-    joueur["tresor"] = [1,2]
+    joueur["tresor"] = []
     return joueur
 
 def ajouterTresor(joueur,tresor):
