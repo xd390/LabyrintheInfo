@@ -13,12 +13,9 @@ def ListeJoueurs(nomsJoueurs):
     while i<len(nomsJoueurs):
       nom=joueur.Joueur(nomsJoueurs[i])
       joueurs.append(nom)
-      print(joueurs)
       i+=1
     return joueurs
     pass
-
-ListeJoueurs(["Anthony","Julien","Hector"])
 
 def ajouterJoueur(joueurs, joueur1):
     """
@@ -29,7 +26,7 @@ def ajouterJoueur(joueurs, joueur1):
     """
     nom=joueur.Joueur(joueur1)
     joueurs.append(nom)
-ajouterJoueur(["Anthony","Julien","Hector"],"bertrand")
+
 def initAleatoireJoueurCourant(joueurs):
     """
     tire au sort le joueur courant
@@ -76,5 +73,3 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
           if i>len(Tresors):
             out=True
           i+=1
-    print(joueurs)
-      
