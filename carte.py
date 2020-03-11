@@ -17,7 +17,7 @@ la liste des caractères semi-graphiques correspondant aux différentes cartes
 l'indice du caractère dans la liste correspond au codage des murs sur la carte
 le caractère 'Ø' indique que l'indice ne correspond pas à une carte
 """
-listeCartes=['╬','╦',,'╗','╩','═','╝','Ø','╠','╔','║','Ø','╚','Ø','Ø','Ø']
+listeCartes=['╬','╦','╣','╗','╩','═','╝','Ø','╠','╔','║','Ø','╚','Ø','Ø','Ø']
 c=carte
 
 def Carte( nord, est, sud, ouest, tresor=0, pions=[]):
@@ -273,7 +273,6 @@ def prendrePion(c, pion):
             if i==pion:
                 c["pions"].pop(i)"""
     pass
-
 
 def poserPion(c, pion):
     """

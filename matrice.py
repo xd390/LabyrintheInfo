@@ -5,8 +5,8 @@
 
    Module matrice
    ~~~~~~~~~~~~~~~
-   
-   Ce module gère une matrice. 
+
+   Ce module gère une matrice.
 """
 
 #-----------------------------------------
@@ -15,21 +15,34 @@
 
 def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
     """
-    crée une matrice de nbLignes lignes sur nbColonnes colonnes en mettant 
+    crée une matrice de nbLignes lignes sur nbColonnes colonnes en mettant
     valeurParDefaut dans chacune des cases
-    paramètres: 
+    paramètres:
       nbLignes un entier strictement positif qui indique le nombre de lignes
       nbColonnes un entier strictement positif qui indique le nombre de colonnes
       valeurParDefaut la valeur par défaut
     résultat la matrice ayant les bonnes propriétés
     """
+	M1=[]
+	aux=[]
+	for i in range(nbColonnes):
+		aux.append(valeurParDefaut)
+	for e in range(nbLignes):
+		M1.append(aux)
+    return M1
     pass
+
+
 
 def getNbLignes(matrice):
     """
     retourne le nombre de lignes de la matrice
     paramètre: matrice la matrice considérée
     """
+    res=0
+    for i in matrice:
+        res+=1
+    return res
     pass
 
 def getNbColonnes(matrice):
@@ -37,6 +50,10 @@ def getNbColonnes(matrice):
     retourne le nombre de colonnes de la matrice
     paramètre: matrice la matrice considérée
     """
+    res=0
+    for i in matrice[0]:
+        res+=1
+    return res
     pass
 
 def getVal(matrice,ligne,colonne):
@@ -46,6 +63,7 @@ def getVal(matrice,ligne,colonne):
                 ligne le numéro de la ligne (en commençant par 0)
                 colonne le numéro de la colonne (en commençant par 0)
     """
+    return matrice[ligne][colonne]
     pass
 
 def setVal(matrice,ligne,colonne,valeur):
@@ -57,10 +75,11 @@ def setVal(matrice,ligne,colonne,valeur):
                 valeur la valeur à stocker dans la matrice
     cette fonction ne retourne rien mais modifie la matrice
     """
+    matrice[ligne][colonne]=valeur
     pass
 
 
-#------------------------------------------        
+#------------------------------------------
 # decalages
 #------------------------------------------
 def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
@@ -73,6 +92,10 @@ def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat la valeur qui a été ejectée lors du décalage
     """
+    res=matrice[numLig[-1]]
+    matrice.pop([numlig[-1]])
+    matrice.insert([numlig[nouvelleValeur]])
+    return res
     pass
 
 def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
@@ -84,7 +107,12 @@ def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
+    res=matrice[numLig[0]]
+    matrice.pop([numlig[0]])
+    matrice.insert([numlig[nouvelleValeur]])
+    return res
     pass
+
 def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
     """
     decale la colonne numCol d'une case vers le haut en insérant une nouvelle
@@ -94,6 +122,15 @@ def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
+    res=matrice[0][numCol]
+    cpt=0
+    for ligne in matrice:
+        cpt+=1
+        if cpt!=len(matrice):
+            ligne.pop(ligne[numCol])
+            ligne.insert(ligne[numCol], ligne+1[numCol])
+    matrice[-1][numCol]=nouvelleValeur
+    return res
     pass
 
 def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
@@ -105,5 +142,13 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
+    res=matrice[-1][numCol]
+    cpt=0
+    for ligne in matrice:
+        cpt+=1
+        if cpt!=1:
+            ligne.pop(ligne[numCol])
+            ligne.insert(ligne[numCol], ligne-1[numCol])
+    matrice[0][numCol]=nouvelleValeur
+    return res
     pass
-

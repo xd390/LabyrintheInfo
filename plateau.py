@@ -22,6 +22,7 @@ def Plateau(nbJoueurs, nbTresors):
                 ont été placée de manière aléatoire
               - la carte amovible qui n'a pas été placée sur le plateau
     """
+    matrice=matrice.Matrice(7,7,0)
     pass
 
 

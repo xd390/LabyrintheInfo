@@ -15,7 +15,7 @@ def ListeJoueurs(nomsJoueurs):
       joueurs.append(nom)
       i+=1
     return joueurs
-    pass
+
 
 def ajouterJoueur(joueurs, joueur1):
     """
@@ -34,6 +34,11 @@ def initAleatoireJoueurCourant(joueurs):
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
     random.shuffle(joueurs)
+    i=0
+    while i<len(joueurs):
+      joueurs[i]["numJoueur"]=i
+      i+=1
+    
 
 def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
     """
@@ -73,3 +78,109 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
           if i>len(Tresors):
             out=True
           i+=1
+
+def changerJoueurCourant(joueurs):
+    """
+    passe au joueur suivant (change le joueur courant donc)
+    paramètres: joueurs la liste des joueurs
+    cette fonction ne retourne rien mais modifie la liste des joueurs
+    """
+    cpt=joueurs[0]
+    joueurs.pop(0)
+    joueurs.append(cpt)
+
+def getNbJoueurs(joueurs):
+    """
+    retourne le nombre de joueurs participant à la partie
+    paramètre: joueurs la liste des joueurs
+    résultat: le nombre de joueurs de la partie
+    """
+    return len(joueurs)
+
+def getJoueurCourant(joueurs):
+    """
+    retourne le joueur courant
+    paramètre: joueurs la liste des joueurs
+    résultat: le joueur courant
+    """
+    return joueurs(0)
+
+def joueurCourantTrouveTresor(joueurs):
+    """
+    Met à jour le joueur courant lorsqu'il a trouvé un trésor
+    c-à-d enlève le trésor de sa liste de trésors à trouver
+    paramètre: joueurs la liste des joueurs
+    cette fonction ne retourne rien mais modifie la liste des joueurs
+    """
+    joueur.tresorTrouve(joueurs[0])
+
+def nbTresorsRestantsJoueur(joueurs,numJoueur):
+    """
+    retourne le nombre de trésors restant pour le joueur dont le numéro 
+    est donné en paramètre
+    paramètres: joueurs la liste des joueurs
+                numJoueur le numéro du joueur
+    résultat: le nombre de trésors que joueur numJoueur doit encore trouver
+    """
+    return len(joueurs[numJoueur]["tresor"])
+
+def numJoueurCourant(joueurs):
+    """
+    retourne le numéro du joueur courant
+    paramètre: joueurs la liste des joueurs
+    résultat: le numéro du joueur courant
+    """
+    return joueurs[0]["numJoueur"]
+
+def nomJoueurCourant(joueurs):
+    """
+    retourne le nom du joueur courant
+    paramètre: joueurs la liste des joueurs
+    résultat: le nom du joueur courant
+    """
+    return joueur.Getnom(joueurs[0])
+
+def nomJoueur(joueurs,numJoueur):
+    """
+    retourne le nom du joueur dont le numero est donné en paramètre
+    paramètres: joueurs la liste des joueurs
+                numJoueur le numéro du joueur    
+    résultat: le nom du joueur numJoueur
+    """
+    test=False
+    while i<len(joueurs) and test==False:
+      if joueurs[i]["numJoueur"]==numJoueur:
+        joueur=joueurs[i]
+        test=True
+      i+=1
+    return joueur.Getnom(joueur)
+
+def prochainTresorJoueur(joueurs,numJoueur):
+    """
+    retourne le trésor courant du joueur dont le numero est donné en paramètre
+    paramètres: joueurs la liste des joueurs
+                numJoueur le numéro du joueur    
+    résultat: le prochain trésor du joueur numJoueur (un entier)
+    """
+    name=nomJoueur(joueurs,numJoueur)
+    return joueur.prochainTresorJoueur(name)
+
+def tresorCourant(joueurs):
+    """
+    retourne le trésor courant du joueur courant
+    paramètre: joueurs la liste des joueurs 
+    résultat: le prochain trésor du joueur courant (un entier)
+    """
+    return joueur.prochainTresorJoueur(joueurs[0])
+
+def joueurCourantAFini(joueurs):
+    """
+    indique si le joueur courant a gagné
+    paramètre: joueurs la liste des joueurs 
+    résultat: un booleen indiquant si le joueur courant a fini
+    """
+    if joueur.prochainTresorJoueur(joueurs[0])==None):
+      return True
+    else:
+      return False
+

@@ -73,3 +73,4 @@ def getNom(joueur):
     """
     res=joueur("name")
     return res
+if __name__=="__main__":
