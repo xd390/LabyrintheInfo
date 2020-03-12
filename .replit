@@ -1,3 +1,4 @@
 language = "python3"
-  run = "hello world"
+  run = "python3 listeJoueurs.py"
+
   

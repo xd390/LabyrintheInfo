@@ -61,8 +61,7 @@ def getNbTresorsRestants(joueur):
     paramètre: joueur le joueur
     résultat: le nombre de trésors attribués au joueur
     """
-    res=len(joueur["tresor"])
-    return res
+    return len(joueur["tresor"]) 
 
 
 def getNom(joueur):
@@ -71,6 +70,15 @@ def getNom(joueur):
     paramètre: joueur le joueur
     résultat: le nom du joueur 
     """
-    res=joueur("name")
-    return res
+    return joueur["name"]
+
 if __name__=="__main__":
+  print(Joueur("Anthony"))
+  c=Joueur("anthony")
+  print(ajouterTresor(c,1))
+  print(ajouterTresor(c,2))
+  print(prochainTresor(c))
+  print(tresorTrouve(c))
+  print(prochainTresor(c))
+  print(getNbTresorsRestants(c))
+  print(getNom(c))

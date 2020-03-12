@@ -103,7 +103,7 @@ def getJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le joueur courant
     """
-    return joueurs(0)
+    return joueurs[0]
 
 def joueurCourantTrouveTresor(joueurs):
     """
@@ -138,7 +138,7 @@ def nomJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le nom du joueur courant
     """
-    return joueur.Getnom(joueurs[0])
+    return joueur.getNom(joueurs[0])
 
 def nomJoueur(joueurs,numJoueur):
     """
@@ -148,12 +148,12 @@ def nomJoueur(joueurs,numJoueur):
     résultat: le nom du joueur numJoueur
     """
     test=False
+    i=0
     while i<len(joueurs) and test==False:
       if joueurs[i]["numJoueur"]==numJoueur:
-        joueur=joueurs[i]
         test=True
       i+=1
-    return joueur.Getnom(joueur)
+    return joueur.getNom(joueurs[i-1])
 
 def prochainTresorJoueur(joueurs,numJoueur):
     """
@@ -162,8 +162,13 @@ def prochainTresorJoueur(joueurs,numJoueur):
                 numJoueur le numéro du joueur    
     résultat: le prochain trésor du joueur numJoueur (un entier)
     """
-    name=nomJoueur(joueurs,numJoueur)
-    return joueur.prochainTresorJoueur(name)
+    test=False
+    i=0
+    while i<len(joueurs) and test==False:
+      if joueurs[i]["numJoueur"]==numJoueur:
+        test=True
+      i+=1
+    return joueur.prochainTresor(joueurs[i-1])
 
 def tresorCourant(joueurs):
     """
@@ -171,7 +176,7 @@ def tresorCourant(joueurs):
     paramètre: joueurs la liste des joueurs 
     résultat: le prochain trésor du joueur courant (un entier)
     """
-    return joueur.prochainTresorJoueur(joueurs[0])
+    return joueur.prochainTresor(joueurs[0])
 
 def joueurCourantAFini(joueurs):
     """
@@ -179,8 +184,28 @@ def joueurCourantAFini(joueurs):
     paramètre: joueurs la liste des joueurs 
     résultat: un booleen indiquant si le joueur courant a fini
     """
-    if joueur.prochainTresorJoueur(joueurs[0])==None):
+    if joueur.prochainTresor(joueurs[0])==None:
       return True
     else:
       return False
 
+if __name__=="__main__":
+  c=(ListeJoueurs(["Anthony","Hector","Jira"]))
+  print(c)
+  print(ajouterJoueur(c, "Jean marc"))
+  print(initAleatoireJoueurCourant(c))
+  print(distribuerTresors(c,nbTresors=24, nbTresorMax=0))
+  print(c)
+  print(changerJoueurCourant(c))
+  print(c)
+  print(getNbJoueurs(c))
+  print(getJoueurCourant(c))
+  print(joueurCourantTrouveTresor(c))
+  print(nbTresorsRestantsJoueur(c,2))
+  print(numJoueurCourant(c))
+  print(nomJoueurCourant(c))
+  print(nomJoueur(c,2))
+  print(prochainTresorJoueur(c,2))
+  print(c)
+  print(tresorCourant(c))
+  print(joueurCourantAFini(c))
