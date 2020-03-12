@@ -13,7 +13,7 @@
 # contructeur et accesseurs
 #-----------------------------------------
 
-def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
+def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):             #marche
     """
     crée une matrice de nbLignes lignes sur nbColonnes colonnes en mettant
     valeurParDefaut dans chacune des cases
@@ -23,18 +23,17 @@ def Matrice(nbLignes,nbColonnes,valeurParDefaut=0):
       valeurParDefaut la valeur par défaut
     résultat la matrice ayant les bonnes propriétés
     """
-	M1=[]
-	aux=[]
-	for i in range(nbColonnes):
-		aux.append(valeurParDefaut)
-	for e in range(nbLignes):
-		M1.append(aux)
+    M1=[]
+    for e in range(nbLignes):
+        M1.append([valeurParDefaut]*nbColonnes)
     return M1
     pass
 
+matrice=Matrice(7,7)
+#print(matrice)
 
 
-def getNbLignes(matrice):
+def getNbLignes(matrice):                                       #marche
     """
     retourne le nombre de lignes de la matrice
     paramètre: matrice la matrice considérée
@@ -45,7 +44,9 @@ def getNbLignes(matrice):
     return res
     pass
 
-def getNbColonnes(matrice):
+#print(getNbLignes(matrice))
+
+def getNbColonnes(matrice):                                     #marche
     """
     retourne le nombre de colonnes de la matrice
     paramètre: matrice la matrice considérée
@@ -56,7 +57,9 @@ def getNbColonnes(matrice):
     return res
     pass
 
-def getVal(matrice,ligne,colonne):
+#print(getNbColonnes(matrice))
+
+def getVal(matrice,ligne,colonne):                              #marche
     """
     retourne la valeur qui se trouve en (ligne,colonne) dans la matrice
     paramètres: matrice la matrice considérée
@@ -66,7 +69,9 @@ def getVal(matrice,ligne,colonne):
     return matrice[ligne][colonne]
     pass
 
-def setVal(matrice,ligne,colonne,valeur):
+#print(getVal(matrice,4,4))
+
+def setVal(matrice,ligne,colonne,valeur):                       #marche
     """
     met la valeur dans la case se trouve en (ligne,colonne) de la matrice
     paramètres: matrice la matrice considérée
@@ -78,11 +83,13 @@ def setVal(matrice,ligne,colonne,valeur):
     matrice[ligne][colonne]=valeur
     pass
 
+#setVal(matrice,4,4,4)
+#print(matrice)
 
 #------------------------------------------
 # decalages
 #------------------------------------------
-def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
+def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):        #marche
     """
     permet de décaler une ligne vers la gauche en insérant une nouvelle
     valeur pour remplacer la premiere case à droite de cette ligne
@@ -92,13 +99,17 @@ def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat la valeur qui a été ejectée lors du décalage
     """
-    res=matrice[numLig[-1]]
-    matrice.pop([numlig[-1]])
-    matrice.insert([numlig[nouvelleValeur]])
+    res=matrice[numLig][0]
+    matrice[numLig].pop(0)
+    matrice[numLig].append(nouvelleValeur)
     return res
     pass
 
-def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
+#print(decalageLigneAGauche(matrice,4,5))
+#print(matrice)
+
+
+def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):            #marche
     """
     decale la ligne numLig d'une case vers la droite en insérant une nouvelle
     valeur pour remplacer la premiere case à gauche de cette ligne
@@ -107,13 +118,19 @@ def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):
                  nouvelleValeur la valeur à placer
     résultat: la valeur de la case "ejectée" par le décalage
     """
-    res=matrice[numLig[0]]
-    matrice.pop([numlig[0]])
-    matrice.insert([numlig[nouvelleValeur]])
+    aux=[nouvelleValeur]
+    res=matrice[numLig][-1]
+    matrice[numLig].pop(-1)
+    aux.extend(matrice[numLig])
+    matrice[numLig]=aux
     return res
     pass
 
-def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
+#print(decalageLigneADroite(matrice,4,5))
+#print(matrice)
+
+
+def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):       #marche
     """
     decale la colonne numCol d'une case vers le haut en insérant une nouvelle
     valeur pour remplacer la premiere case en bas de cette ligne
@@ -123,17 +140,18 @@ def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):
     résultat: la valeur de la case "ejectée" par le décalage
     """
     res=matrice[0][numCol]
-    cpt=0
-    for ligne in matrice:
-        cpt+=1
-        if cpt!=len(matrice):
-            ligne.pop(ligne[numCol])
-            ligne.insert(ligne[numCol], ligne+1[numCol])
+    aux=0
+    for i in range(len(matrice)-1):
+        matrice[i].pop(numCol)
+        aux=matrice[i+1][numCol]
+        matrice[i].insert(numCol, aux)
     matrice[-1][numCol]=nouvelleValeur
-    return res
-    pass
 
-def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
+
+#decalageColonneEnHaut(matrice,4,6)
+#print(matrice)
+
+def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):            #marche
     """
     decale la colonne numCol d'une case vers le bas en insérant une nouvelle
     valeur pour remplacer la premiere case en haut de cette ligne
@@ -143,12 +161,30 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):
     résultat: la valeur de la case "ejectée" par le décalage
     """
     res=matrice[-1][numCol]
-    cpt=0
-    for ligne in matrice:
-        cpt+=1
-        if cpt!=1:
-            ligne.pop(ligne[numCol])
-            ligne.insert(ligne[numCol], ligne-1[numCol])
+    aux=0
+    for i in range(-1, -len(matrice),-1):
+        matrice[i].pop(numCol)
+        aux=matrice[i-1][numCol]
+        matrice[i].insert(numCol, aux)
     matrice[0][numCol]=nouvelleValeur
-    return res
-    pass
+
+
+#decalageColonneEnBas(matrice,4,7)
+#print(matrice)
+
+
+if __name__=="__main__":
+    print(Matrice(7,7))
+    print(getNbLignes(matrice))
+    print(getNbColonnes(matrice))
+    print(getVal(matrice,4,4))
+    setVal(matrice,4,4,4)
+    print(matrice)
+    print(decalageLigneAGauche(matrice,4,5))
+    print(matrice)
+    print(decalageLigneADroite(matrice,4,5))
+    print(matrice)
+    decalageColonneEnHaut(matrice,4,6)
+    print(matrice)
+    decalageColonneEnBas(matrice,4,7)
+    print(matrice)
