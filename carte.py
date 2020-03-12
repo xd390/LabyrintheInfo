@@ -18,9 +18,8 @@ l'indice du caractère dans la liste correspond au codage des murs sur la carte
 le caractère 'Ø' indique que l'indice ne correspond pas à une carte
 """
 listeCartes=['╬','╦','╣','╗','╩','═','╝','Ø','╠','╔','║','Ø','╚','Ø','Ø','Ø']
-c=carte
 
-def Carte( nord, est, sud, ouest, tresor=0, pions=[]):
+def Carte( nord, est, sud, ouest, tresor=0, pions=[]):          #marche
     """
     permet de créer une carte:
     paramètres:
@@ -28,172 +27,72 @@ def Carte( nord, est, sud, ouest, tresor=0, pions=[]):
     tresor est le numéro du trésor qui se trouve sur la carte (0 s'il n'y a pas de trésor)
     pions est la liste des pions qui sont posés sur la carte (un pion est un entier entre 1 et 4)
     """
-    patern=None
-    c={}
-
-    if nord==True:
-        if est==True:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : "╗" }
-            return c
-        elif sud==True:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '═' }
-        elif ouest==True:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╔' }
-        else:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : "╦" }
-        return c
-    elif est==True:
-        if sud==True:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╝' }
-        elif ouest==True:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '║' }
-        else:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╣' }
-        return c
-    elif sud==True:
-        if ouest==True:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╚' }
-        else:
-            c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╩' }
-            return c
-    elif ouest==True:
-        c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╠' }
-        return c
-    elif nord==True and nord==sud and sud==est and est==ouest:
-        c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : '╬' }
-        return c
-    else:
-        c={"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions, "patern" : 'Ø' }
-        return c
+    return {"nord" : nord, "est" : est, "sud" : sud, "ouest" : ouest, "tresor" : tresor, "pions" : pions }
 
 
-    """for i in listeCartes:           #Lorsqu'il y a un mur, je met True et False s'il n'y en a pas.
-        if i==╬:
-            nord=False
-            est=False
-            sud=False
-            ouest=False
-        elif i==╦:
-            nord=True
-            est=False
-            sud=False
-            ouest=False
-        elif i==╣:
-            nord=False
-            est=True
-            sud=False
-            ouest=False
-        elif i==╗:
-            nord=True
-            est=True
-            sud=False
-            ouest=False
-        elif i==╩:
-            nord=False
-            est=False
-            sud=True
-            ouest=False
-        elif i==═:
-            nord=True
-            est=False
-            sud=True
-            ouest=False
-        elif i==╝:
-            nord=False
-            est=True
-            sud=True
-            ouest=False
-        elif i==╠:
-            nord=False
-            est=False
-            sud=False
-            ouest=True
-        elif i==╔:
-            nord=True
-            est=False
-            sud=False
-            ouest=True
-        elif i==║:
-            nord=False
-            est=True
-            sud=False
-            ouest=True
-        elif i==╚:
-            nord=False
-            est=False
-            sud=True
-            ouest=True
-        elif i==Ø:"""
 
-    pass
-
-def estValide(c):
+def estValide(c):                               #marche
     """
     retourne un booléen indiquant si la carte est valide ou non c'est à dire qu'elle a zéro un ou deux murs
     paramètre: c une carte
-    """
-    cpt=0
+        cpt=0
     for key, value in c.keys():
-        if value==True:
-            cpt+=1
-        if cpt>=3:
-            return False
-    return True
+        if key=="nord" or key=="est" or key=="sud" or key=="ouest":
+            if value==True:
+                cpt+=1
+            if cpt>=3:
+                return False
+    return True"""
+    cpt=0
+    if c["nord"]==True:
+        cpt+=1
+    if c["ouest"]==True:
+        cpt+=1
+    if c["sud"]==True:
+        cpt+=1
+    if c["est"]==True:
+        cpt+=1
+    if cpt>2:
+        return False
+    else:
+        return True
 
-
-def murNord(c):
+def murNord(c):                                 #marche
     """
     retourne un booléen indiquant si la carte possède un mur au nord
     paramètre: c une carte
     """
-    if c["nord"]==True:
-        return True
-    else:
-        return False
+    return c["nord"]==True
 
-
-def murSud(c):
+def murSud(c):                                  #marche
     """
     retourne un booléen indiquant si la carte possède un mur au sud
     paramètre: c une carte
     """
-    if c["sud"]==True:
-        return True
-    else:
-        return False
+    return c["sud"]==True
 
-
-def murEst(c):
+def murEst(c):                                  #marche
     """
     retourne un booléen indiquant si la carte possède un mur à l'est
     paramètre: c une carte
     """
-    if c["est"]==True:
-        return True
-    else:
-        return False
+    return c["est"]==True
 
-
-def murOuest(c):
+def murOuest(c):                                #marche
     """
     retourne un booléen indiquant si la carte possède un mur à l'ouest
     paramètre: c une carte
     """
-    if c["ouest"]==True:
-        return True
-    else:
-        return False
+    return c["ouest"]==True
 
-
-def getListePions(c):
+def getListePions(c):                           #marche
     """
     retourne la liste des pions se trouvant sur la carte
     paramètre: c une carte
     """
     return c["pions"]
 
-
-def setListePions(c,listePions):
+def setListePions(c,listePions):                #marche
     """
     place la liste des pions passées en paramètre sur la carte
     paramètres: c: est une carte
@@ -204,30 +103,27 @@ def setListePions(c,listePions):
     pass
 
 
-def getNbPions(c):
+def getNbPions(c):                              #marche
     """
     retourne le nombre de pions se trouvant sur la carte
     paramètre: c une carte
     """
-    cpt=0
-    for i in c["pions"]:
-        cpt+=1
-    return cpt
+    return len(c["pions"])
 
 
-def possedePion(c,pion):
+def possedePion(c,pion):                        #marche
     """
     retourne un booléen indiquant si la carte possède le pion passé en paramètre
     paramètres: c une carte
                 pion un entier compris entre 1 et 4
     """
     if pion in c["pions"]:
-        return True!
+        return True
     else:
         return False
 
 
-def getTresor(c):
+def getTresor(c):                               #marche
     """
     retourne la valeur du trésor qui se trouve sur la carte (0 si pas de trésor)
     paramètre: c une carte
@@ -235,7 +131,7 @@ def getTresor(c):
     return c["tresor"]
 
 
-def prendreTresor(c):
+def prendreTresor(c):                           #marche
     """
     enlève le trésor qui se trouve sur la carte et retourne la valeur de ce trésor
     paramètre: c une carte
@@ -246,7 +142,7 @@ def prendreTresor(c):
     return res
 
 
-def mettreTresor(c,tresor):
+def mettreTresor(c,tresor):                     #marche
     """
     met le trésor passé en paramètre sur la carte et retourne la valeur de l'ancien trésor
     paramètres: c une carte
@@ -258,23 +154,26 @@ def mettreTresor(c,tresor):
     return res
 
 
-def prendrePion(c, pion):
+def prendrePion(c, pion):                       #marche
     """
     enlève le pion passé en paramètre de la carte. Si le pion n'y était pas ne fait rien
     paramètres: c une carte
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
-    """
-    if pion not in c["pions"]:
-        pass
-    else:
-        c["pions"].pop(pion)
-        """for i in c["pions"]:
-            if i==pion:
-                c["pions"].pop(i)"""
+    for i in c["pions"]:
+        if i==pion:
+            c["pions"].pop()
+    print(c["pions"])
+    pass"""
+    aux=[]
+    for i in c["pions"]:
+        if i!=pion:
+            aux.append(i)
+    c["pions"]=aux
     pass
 
-def poserPion(c, pion):
+
+def poserPion(c, pion):                         #marche
     """
     pose le pion passé en paramètre sur la carte. Si le pion y était déjà ne fait rien
     paramètres: c une carte
@@ -284,8 +183,7 @@ def poserPion(c, pion):
     c["pions"].append(pion)
     pass
 
-
-def tournerHoraire(c):
+def tournerHoraire(c):                          #marche
     """
     fait tourner la carte dans le sens horaire
     paramètres: c une carte
@@ -299,7 +197,7 @@ def tournerHoraire(c):
     pass
 
 
-def tournerAntiHoraire(c):
+def tournerAntiHoraire(c):                      #marche
     """
     fait tourner la carte dans le sens anti-horaire
     paramètres: c une carte
@@ -313,17 +211,20 @@ def tournerAntiHoraire(c):
     pass
 
 
-def tourneAleatoire(c):                         ############################ random ? ###########################
+def tourneAleatoire(c):                         #marche
     """
     faire tourner la carte d'un nombre de tours aléatoire
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien
     """
+    rng=random.choice([1,2,3])
+    for i in range(rng):
+        tournerHoraire(c)
     pass
 
 
 
-def coderMurs(c):
+def coderMurs(c):                           #marche
     """
     code les murs sous la forme d'un entier dont le codage binaire
     est de la forme bNbEbSbO où bN, bE, bS et bO valent
@@ -342,12 +243,12 @@ def coderMurs(c):
         res==10
     if c["sud"]==True:
         res==100
-    if c["ouest"]==True!
+    if c["ouest"]==True:
         res+=1000
     return res
 
 
-def decoderMurs(c,code):
+def decoderMurs(c,code):                    #marche
     """
     positionne les murs d'une carte en fonction du code décrit précédemment
     paramètres c une carte
@@ -355,29 +256,54 @@ def decoderMurs(c,code):
     Cette fonction modifie la carte mais ne retourne rien
     """
     res=code
-    if code=>1000:
+    if code>=1000:
         c["ouest"]=True
         res=res-1000
-    if code=>100:
+    if code>=100:
         c["sud"]=True
         res=res-100
-    if code=>10:
+    if code>=10:
         c["est"]=True
         res=res-10
-    if code=>1:
+    if code>=1:
         c["nord"]=True
     pass
 
 
-def toChar(c):
+def toChar(c):                              #marche
     """
     fournit le caractère semi graphique correspondant à la carte (voir la variable listeCartes au début de ce script)
     paramètres c une carte
     """
-    return c["patern"]
+    code=coderMurs(c)
+    if code==1100:
+        return '╚'
+    elif code==1010:
+        return '║'
+    elif code==1001:
+        return '╔'
+    elif code==1000:
+        return '╠'
+    elif code==110:
+        return '╝'
+    elif code==101:
+        return '═'
+    elif code==100:
+        return '╩'
+    elif code==11:
+        return '╗'
+    elif code==10:
+        return '╣'
+    elif code==1:
+        return '╦'
+    elif code==0:
+        return '╬'
+    else:
+        return 'Ø'
 
 
-def passageNord(carte1,carte2):
+
+def passageNord(carte1,carte2):             #marche
     """
     suppose que la carte2 est placée au nord de la carte1 et indique
     s'il y a un passage entre ces deux cartes en passant par le nord
@@ -390,7 +316,7 @@ def passageNord(carte1,carte2):
         return False
 
 
-def passageSud(carte1,carte2):
+def passageSud(carte1,carte2):              #marche
     """
     suppose que la carte2 est placée au sud de la carte1 et indique
     s'il y a un passage entre ces deux cartes en passant par le sud
@@ -402,7 +328,7 @@ def passageSud(carte1,carte2):
     else:
         return False
 
-def passageOuest(carte1,carte2):
+def passageOuest(carte1,carte2):            #marche
     """
     suppose que la carte2 est placée à l'ouest de la carte1 et indique
     s'il y a un passage entre ces deux cartes en passant par l'ouest
@@ -415,7 +341,7 @@ def passageOuest(carte1,carte2):
         return False
 
 
-def passageEst(carte1,carte2):
+def passageEst(carte1,carte2):              #marche
     """
     suppose que la carte2 est placée à l'est de la carte1 et indique
     s'il y a un passage entre ces deux cartes en passant par l'est
@@ -426,3 +352,32 @@ def passageEst(carte1,carte2):
         return True
     else:
         return False
+
+c=Carte(True,True,False,False)
+
+if __name__=="__main__":
+    Carte(True, True, False, False)
+    print(c)
+    print(estValide(c))
+    print(murNord(c))
+    print(murSud(c))
+    print(murEst(c))
+    print(murOuest(c))
+    print(getListePions(c))
+    print(setListePions(c,[2,1]))
+    print(getNbPions(c))
+    print(possedePion(c,3))
+    print(getTresor(c))
+    print(prendreTresor(c))
+    print(mettreTresor(c,1))
+    print(prendrePion(c,2))
+    print(poserPion(c,2))
+    print(tournerHoraire(c))
+    print(tournerAntiHoraire(c))
+    print(tourneAleatoire(c))
+    print(coderMurs(c))
+    print(decoderMurs(c,coderMurs(c)))
+    print(toChar(c))
+    print(passageNord(c,c))
+    print(passageSud(c,c))
+    print(passageOuest(c,c))
