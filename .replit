@@ -1,4 +1,4 @@
 language = "python3"
-  run = "python3 labyrinthe.py"
+  run = "python3 listeJoueurs.py"
 
   

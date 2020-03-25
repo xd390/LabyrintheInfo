@@ -1,5 +1,5 @@
 import random
-import joueur
+from joueur import *
 
 def ListeJoueurs(nomsJoueurs):
     """
@@ -11,7 +11,7 @@ def ListeJoueurs(nomsJoueurs):
     joueurs=[]
     i=0
     while i<len(nomsJoueurs):
-      nom=joueur.Joueur(nomsJoueurs[i])
+      nom=Joueur(nomsJoueurs[i])
       joueurs.append(nom)
       i+=1
     return joueurs
@@ -24,7 +24,7 @@ def ajouterJoueur(joueurs, joueur1):
                 joueur le joueur à ajouter
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    nom=joueur.Joueur(joueur1)
+    nom=Joueur(joueur1)
     joueurs.append(nom)
 
 def initAleatoireJoueurCourant(joueurs):
@@ -60,20 +60,20 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
       while i<len(Tresors):
         cpt=0
         while cpt<len(joueurs) and i<len(Tresors):
-          joueur.ajouterTresor(joueurs[cpt],Tresors[i])
+          ajouterTresor(joueurs[cpt],Tresors[i])
           cpt+=1
           i+=1
       nbJoueurs=getNbJoueurs(joueurs)
       if nbTresors%nbJoueurs!=0:
         if (nbTresors-1)%nbJoueurs==0:
-          joueurs[0]["tresor"].pop(0)
+          tresorTrouve(joueurs[0])
         elif (nbTresors-2)%nbJoueurs==0:
-          joueurs[0]["tresor"].pop(0)
-          joueurs[1]["tresor"].pop(0)
+          tresorTrouve(joueurs[0])
+          tresorTrouve(joueurs[1])
         elif (nbTresors-3)%nbJoueurs==0:
-          joueurs[0]["tresor"].pop(0)
-          joueurs[1]["tresor"].pop(0)
-          joueurs[2]["tresor"].pop(0)          
+          tresorTrouve(joueurs[0])
+          tresorTrouve(joueurs[1])
+          tresorTrouve(joueurs[2])          
     if nbTresorMax!=0:
       if len(joueurs)*nbTresorMax>nbTresors:
         print("il n'y a pas assez de trésor")
@@ -82,7 +82,7 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
       while i<(len(joueurs)*nbTresorMax):
         cpt=0
         while cpt<len(joueurs) and out==False:
-          joueur.ajouterTresor(joueurs[cpt],Tresors[i])
+          ajouterTresor(joueurs[cpt],Tresors[i])
           cpt+=1
           if i>len(Tresors):
             out=True
@@ -122,7 +122,7 @@ def joueurCourantTrouveTresor(joueurs):
     paramètre: joueurs la liste des joueurs
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
-    joueur.tresorTrouve(joueurs[0])
+    tresorTrouve(joueurs[0])
 
 def nbTresorsRestantsJoueur(joueurs,numJoueur):
     """
@@ -132,7 +132,13 @@ def nbTresorsRestantsJoueur(joueurs,numJoueur):
                 numJoueur le numéro du joueur
     résultat: le nombre de trésors que joueur numJoueur doit encore trouver
     """
-    return len(joueurs[numJoueur]["tresor"])
+    test=False
+    i=0
+    while i<len(joueurs) and test==False:
+      if joueurs[i]["numJoueur"]==numJoueur:
+        test=True
+      i+=1
+    return getNbTresorsRestants(joueurs[i-1])
 
 def numJoueurCourant(joueurs):
     """
@@ -148,7 +154,7 @@ def nomJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le nom du joueur courant
     """
-    return joueur.getNom(joueurs[0])
+    return getNom(joueurs[0])
 
 def nomJoueur(joueurs,numJoueur):
     """
@@ -163,7 +169,7 @@ def nomJoueur(joueurs,numJoueur):
       if joueurs[i]["numJoueur"]==numJoueur:
         test=True
       i+=1
-    return joueur.getNom(joueurs[i-1])
+    return getNom(joueurs[i-1])
 
 def prochainTresorJoueur(joueurs,numJoueur):
     """
@@ -178,7 +184,7 @@ def prochainTresorJoueur(joueurs,numJoueur):
       if joueurs[i]["numJoueur"]==numJoueur:
         test=True
       i+=1
-    return joueur.prochainTresor(joueurs[i-1])
+    return prochainTresor(joueurs[i-1])
 
 def tresorCourant(joueurs):
     """
@@ -186,7 +192,7 @@ def tresorCourant(joueurs):
     paramètre: joueurs la liste des joueurs 
     résultat: le prochain trésor du joueur courant (un entier)
     """
-    return joueur.prochainTresor(joueurs[0])
+    return prochainTresor(joueurs[0])
 
 def joueurCourantAFini(joueurs):
     """
@@ -194,7 +200,7 @@ def joueurCourantAFini(joueurs):
     paramètre: joueurs la liste des joueurs 
     résultat: un booleen indiquant si le joueur courant a fini
     """
-    if joueur.prochainTresor(joueurs[0])==None:
+    if prochainTresor(joueurs[0])==None:
       return True
     else:
       return False
