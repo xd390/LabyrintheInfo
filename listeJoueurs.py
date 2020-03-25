@@ -59,12 +59,21 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
       out=False
       while i<len(Tresors):
         cpt=0
-        while cpt<len(joueurs) and out==False:
+        while cpt<len(joueurs) and i<len(Tresors):
           joueur.ajouterTresor(joueurs[cpt],Tresors[i])
           cpt+=1
-          if i>len(Tresors):
-            out=True
           i+=1
+      nbJoueurs=getNbJoueurs(joueurs)
+      if nbTresors%nbJoueurs!=0:
+        if (nbTresors-1)%nbJoueurs==0:
+          joueurs[0]["tresor"].pop(0)
+        elif (nbTresors-2)%nbJoueurs==0:
+          joueurs[0]["tresor"].pop(0)
+          joueurs[1]["tresor"].pop(0)
+        elif (nbTresors-3)%nbJoueurs==0:
+          joueurs[0]["tresor"].pop(0)
+          joueurs[1]["tresor"].pop(0)
+          joueurs[2]["tresor"].pop(0)          
     if nbTresorMax!=0:
       if len(joueurs)*nbTresorMax>nbTresors:
         print("il n'y a pas assez de trésor")
@@ -78,6 +87,7 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
           if i>len(Tresors):
             out=True
           i+=1
+      
 
 def changerJoueurCourant(joueurs):
     """

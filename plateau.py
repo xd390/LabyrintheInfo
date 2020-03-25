@@ -5,10 +5,10 @@
 
    Module plateau
    ~~~~~~~~~~~~~~
-   
-   Ce module gère le plateau de jeu. 
-"""
 
+   Ce module gère le plateau de jeu.
+"""
+import math
 from matrice import *
 from carte import *
 
@@ -22,8 +22,52 @@ def Plateau(nbJoueurs, nbTresors):
                 ont été placée de manière aléatoire
               - la carte amovible qui n'a pas été placée sur le plateau
     """
-    matrice=matrice.Matrice(7,7,0)
-    pass
+    matrice=Matrice(7,7,0)
+    setVal(matrice,0,0,Carte(True,False,False,True,0,[1]))
+    setVal(matrice,0,2,Carte(True,False,False,False))
+    setVal(matrice,0,4,Carte(True,False,False,False))
+    if nbJoueurs>1:
+      setVal(matrice,0,6,Carte(True,True,False,False,0,[2]))
+    else:
+      setVal(matrice,0,6,Carte(True,True,False,False))
+    setVal(matrice,2,0,Carte(False,False,False,True))
+    setVal(matrice,2,2,Carte(False,False,False,True))
+    setVal(matrice,2,4,Carte(True,False,False,False))
+    setVal(matrice,2,6,Carte(False,True,False,False))
+    setVal(matrice,4,0,Carte(False,False,False,True))
+    setVal(matrice,4,2,Carte(False,False,True,False))
+    setVal(matrice,4,4,Carte(False,True,False,False))
+    setVal(matrice,4,6,Carte(False,True,False,False))
+    if nbJoueurs>2:
+      setVal(matrice,6,0,Carte(False,False,True,True,0,[3]))
+    else:
+      setVal(matrice,6,0,Carte(False,False,True,True))
+    setVal(matrice,6,2,Carte(False,False,True,False))
+    setVal(matrice,6,4,Carte(False,False,True,False))
+    if nbJoueurs>3:
+      setVal(matrice,6,6,Carte(False,True,True,False,0,[4]))
+    else:
+      setVal(matrice,6,6,Carte(False,True,True,False))
+    listedecarte=(creerCartesAmovibles(1,nbTresors))
+    if nbTresors>34:
+      listedestresors=list(range(35,nbTresors+1))
+      random.shuffle(listedestresors)
+      for x in matrice:
+        cpt=0
+        while cpt<len(x) and cpt<len(listedestresors):
+          if x[cpt]!=0:
+            x[cpt]["tresor"]=listedestresors[0]
+            listedestresors.pop(0)
+          cpt+=1
+    for x in matrice:
+      cpt=0
+      while cpt<len(x):
+        if x[cpt]==0:
+          x[cpt]=listedecarte[0]
+          listedecarte.pop(0)
+        cpt+=1
+    return matrice,listedecarte
+    
 
 
 
@@ -34,9 +78,30 @@ def creerCartesAmovibles(tresorDebut,nbTresors):
     la fonction retourne la liste, mélangée aléatoirement, des cartes ainsi créées
     paramètres: tresorDebut: le numéro du premier trésor à créer
                 nbTresors: le nombre total de trésor à créer
-    résultat: la liste mélangée aléatoirement des cartes amovibles créees
+    résultat: la liste mélangée aléatoirement des cartes amovibles crée
     """
-    pass
+    listedecarte=[]
+    i=0
+    while i<34:
+      if i<16:
+        listedecarte.append(Carte(True,False,False,True))
+      elif 16<i<22:
+        listedecarte.append(Carte(True,False,False,False))
+      else:
+        listedecarte.append(Carte(False,True,True,False))
+      i+=1
+    i=0
+    listedestresors=list(range(tresorDebut,nbTresors+1))
+    cpt=0
+    for x in listedecarte:
+      if cpt>=len(listedestresors):
+        break
+      x["tresor"]=listedestresors[cpt]
+      cpt+=1
+    random.shuffle(listedecarte)
+    return listedecarte
+
+
 
 def prendreTresorPlateau(plateau,lig,col,numTresor):
     """
@@ -49,7 +114,11 @@ def prendreTresorPlateau(plateau,lig,col,numTresor):
                 numTresor: le numéro du trésor à prendre sur la carte
     resultat: un booléen indiquant si le trésor était bien sur la carte considérée
     """
-    pass
+    if numTresor==plateau[0][lig][col]["tresor"]:
+	    return True
+    return False
+
+
 
 def getCoordonneesTresor(plateau,numTresor):
     """
@@ -59,7 +128,14 @@ def getCoordonneesTresor(plateau,numTresor):
     resultat: un couple d'entier donnant les coordonnées du trésor ou None si
               le trésor n'est pas sur le plateau
     """
-    pass
+    for i_l,l in enumerate(plateau[0]):
+      for i_c,c in enumerate(l):
+        if numTresor==c["tresor"]:
+          return i_l ,i_c
+    return None
+
+
+
 
 def getCoordonneesJoueur(plateau,numJoueur):
     """
@@ -69,7 +145,13 @@ def getCoordonneesJoueur(plateau,numJoueur):
     resultat: un couple d'entier donnant les coordonnées du joueur ou None si
               le joueur n'est pas sur le plateau
     """
-    pass
+    for i_l,l in enumerate(plateau[0]):
+      for i_c,c in enumerate(l):
+        if numJoueur==c["pions"]:
+          return i_l ,i_c
+    return None
+
+
 
 def prendrePionPlateau(plateau,lin,col,numJoueur):
     """
@@ -80,7 +162,10 @@ def prendrePionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
-    pass
+    prendrePion(plateau[0][lin][col],numJoueur)
+
+
+
 def poserPionPlateau(plateau,lin,col,numJoueur):
     """
     met le pion du joueur sur la carte qui se trouve en (lig,col) du plateau
@@ -90,7 +175,9 @@ def poserPionPlateau(plateau,lin,col,numJoueur):
                 numJoueur: le numéro du joueur qui correspond au pion
     Cette fonction ne retourne rien mais elle modifie le plateau
     """
+    poserPion(plateau[0][lin][col], numJoueur)
     pass
+
 
 
 def accessible(plateau,ligD,colD,ligA,colA):
@@ -101,15 +188,53 @@ def accessible(plateau,ligD,colD,ligA,colA):
                 colD: la colonne de la case de départ
                 ligA: la ligne de la case d'arrivée
                 colA: la colonne de la case d'arrivée
-    résultat: un boolean indiquant s'il existe un chemin entre la case de départ
+    résultat: un booléen indiquant s'il existe un chemin entre la case de départ
               et la case d'arrivée
     """
-    pass
+"""    c=0
+    l=0
+    ligC=ligD
+    colC=colD
+    matricelc=[]
+    listedecasesaccessiblesaunord=[[ligD,colD]]
+    listedecasesaccessiblesausud=[[ligD,colD]]
+    listedecasesaccessiblesalouest=[[ligD,colD]]
+    listedecasesaccessiblesalest=[[ligD,colD]]
+    arrivee=[ligA,colA]
+    Trouve=False
+    impossible=False
+"""    """for ligne in plateau[0]:
+        for colonne in l:
+            matricelc.extend([l,c])
+            c+=1
+        l+=1
+    while not Trouve or not impossible:
+        if passageNord(plateau)""" """ """
+"""    if  ligD==0 or not passageNord(matrice[ligC][colC],matrice[(ligC-1)][colC]):
+        impossible=True
+    elif ligD!=0 and passageNord(matrice[ligC][colC],matrice[(ligC-1)][colC]):
+        listedecasesaccessiblesaunord.extend([(ligD-1),colD])
+        ligC=ligC-1
+    if arrivee in listedecasesaccessiblesaunord:
+        trouve=True""""""
+    listedecasesvalides=[[ligD,colD]]
+    if  ligC==0 or not passageNord(matrice[ligC][colC],matrice[(ligC-1)][colC]):
+        impossible=True
+    while not Trouve or not impossible:
+    if  ligC==0 or not passageNord(matrice[ligC][colC],matrice[(ligC-1)][colC]):
+        impossible=True
+        if passageEst(plateau[0][listedecasesvalides[-1][0]][plateau[0][listedecasesvalides[-1][-1]],plateau[0]([listedecasesvalides[-1][0]][plateau[0][listedecasesvalides[-1][-1]]+1)):
+            if [ligC,colC] not in listedecasesvalides:
+                listedecasesvalides.extend([ligC,colC])
+"""
+
+
+
 
 def accessibleDist(plateau,ligD,colD,ligA,colA):
     """
     indique si il y a un chemin entre la case ligD,colD et la case ligA,colA du plateau
-    mais la valeur de retour est None s'il n'y a pas de chemin, 
+    mais la valeur de retour est None s'il n'y a pas de chemin,
     sinon c'est un chemin possible entre ces deux cases sous la forme d'une liste
     de coordonées (couple de (lig,col))
     paramètres: plateau: le plateau considéré
@@ -121,3 +246,14 @@ def accessibleDist(plateau,ligD,colD,ligA,colA):
               de départ et la case d'arrivée
     """
     pass
+
+
+
+if __name__ == "__main__":
+  p=Plateau(2,49)
+  print(p)
+  print(prendreTresorPlateau(p,1,1,32))
+  print(getCoordonneesTresor(p,22))
+  print(getCoordonneesJoueur(p,2))
+  print(prendrePionPlateau(p,0,6,2))
+  print(p)

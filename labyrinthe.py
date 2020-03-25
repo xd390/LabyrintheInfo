@@ -25,7 +25,13 @@ def Labyrinthe(nomsJoueurs=["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0):
                 nbTresorMax le nombre de trésors maximum distribué à chaque joueur
     résultat: le labyrinthe crée
     """
-    pass
+    labyrinthe={}
+    labyrinthe["listedejoueur"]=ListeJoueurs(nomsJoueurs)
+    labyrinthe["plateau"]=Plateau(getNbJoueurs(nomsJoueurs),nbTresors)
+    distribuerTresors(labyrinthe["listedejoueur"],nbTresors, nbTresorsMax)
+    initAleatoireJoueurCourant(labyrinthe["listedejoueur"])
+    print(labyrinthe["listedejoueur"])
+    return labyrinthe
 
 def getPlateau(labyrinthe):
     """
@@ -33,7 +39,7 @@ def getPlateau(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: la matrice représentant le plateau de ce labyrinthe
     """
-    pass
+    return labyrinthe["plateau"]
 
 def getNbParticipants(labyrinthe):
     """
@@ -41,7 +47,7 @@ def getNbParticipants(labyrinthe):
     paramètre: labyrinthe le labyrinthe considéré
     résultat: le nombre de joueurs de la partie
     """
-    pass
+    return getNbJoueurs(labyrinthe["listedejoueur"])
 
 def getNomJoueurCourant(labyrinthe):
     """
@@ -241,3 +247,6 @@ def finirTour(labyrinthe):
               2 si le joueur courant a trouvé son dernier trésor (la partie est donc terminée)
     """
     pass
+if __name__=="__main__":
+  L=Labyrinthe(["hector","anthony"],26,0)
+  print(L)  

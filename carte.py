@@ -166,11 +166,12 @@ def prendrePion(c, pion):                       #marche
     print(c["pions"])
     pass"""
     aux=[]
-    for i in c["pions"]:
-        if i!=pion:
-            aux.append(i)
+    i=0
+    while i<len(c["pions"]):
+      if c["pions"][i]!=pion:
+        aux.append(i)
+      i+=1
     c["pions"]=aux
-    pass
 
 
 def poserPion(c, pion):                         #marche
