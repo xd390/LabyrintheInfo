@@ -34,15 +34,7 @@ def Carte( nord, est, sud, ouest, tresor=0, pions=[]):          #marche
 def estValide(c):                               #marche
     """
     retourne un booléen indiquant si la carte est valide ou non c'est à dire qu'elle a zéro un ou deux murs
-    paramètre: c une carte
-        cpt=0
-    for key, value in c.keys():
-        if key=="nord" or key=="est" or key=="sud" or key=="ouest":
-            if value==True:
-                cpt+=1
-            if cpt>=3:
-                return False
-    return True"""
+    paramètre: c une carte"""
     cpt=0
     if c["nord"]==True:
         cpt+=1
@@ -181,7 +173,12 @@ def poserPion(c, pion):                         #marche
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
-    c["pions"].append(pion)
+    verif=False
+    for x in c["pions"]:
+      if x==pion:
+        verif=True
+    if verif!=True:    
+      c["pions"].append(pion)
     pass
 
 def tournerHoraire(c):                          #marche
@@ -218,7 +215,7 @@ def tourneAleatoire(c):                         #marche
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien
     """
-    rng=random.choice([1,2,3])
+    rng=random.choice([0,1,2,3])
     for i in range(rng):
         tournerHoraire(c)
     pass

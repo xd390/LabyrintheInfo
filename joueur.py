@@ -15,9 +15,7 @@ def Joueur(nom):
     paramètre: nom une chaine de caractères
     retourne le joueur ainsi créé
     """
-    joueur={}
-    joueur["name"]=nom
-    joueur["tresor"] = []
+    joueur={"name" : nom ,"tresor" : []}
     return joueur
 
 def ajouterTresor(joueur,tresor):
@@ -31,7 +29,7 @@ def ajouterTresor(joueur,tresor):
     existe=False
     if tresor in joueur["tresor"]:
       existe=True
-    if existe==False:
+    if not existe:
       joueur["tresor"].append(tresor)
 
 def prochainTresor(joueur):

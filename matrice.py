@@ -38,11 +38,8 @@ def getNbLignes(matrice):                                       #marche
     retourne le nombre de lignes de la matrice
     paramètre: matrice la matrice considérée
     """
-    res=0
-    for i in matrice:
-        res+=1
-    return res
-    pass
+    return len(matrice)
+
 
 #print(getNbLignes(matrice))
 
