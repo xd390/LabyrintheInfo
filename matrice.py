@@ -100,7 +100,7 @@ def decalageLigneAGauche(matrice, numLig, nouvelleValeur=0):        #marche
     matrice[numLig].pop(0)
     matrice[numLig].append(nouvelleValeur)
     return res
-    pass
+
 
 #print(decalageLigneAGauche(matrice,4,5))
 #print(matrice)
@@ -121,7 +121,7 @@ def decalageLigneADroite(matrice, numLig, nouvelleValeur=0):            #marche
     aux.extend(matrice[numLig])
     matrice[numLig]=aux
     return res
-    pass
+
 
 #print(decalageLigneADroite(matrice,4,5))
 #print(matrice)
@@ -143,7 +143,7 @@ def decalageColonneEnHaut(matrice, numCol, nouvelleValeur=0):       #marche
         aux=matrice[i+1][numCol]
         matrice[i].insert(numCol, aux)
     matrice[-1][numCol]=nouvelleValeur
-
+    return res
 
 #decalageColonneEnHaut(matrice,4,6)
 #print(matrice)
@@ -164,7 +164,7 @@ def decalageColonneEnBas(matrice, numCol, nouvelleValeur=0):            #marche
         aux=matrice[i-1][numCol]
         matrice[i].insert(numCol, aux)
     matrice[0][numCol]=nouvelleValeur
-
+    return res
 
 #decalageColonneEnBas(matrice,4,7)
 #print(matrice)

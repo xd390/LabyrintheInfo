@@ -25,7 +25,7 @@ def Labyrinthe(nomsJoueurs=["joueur1","joueurs2"],nbTresors=24, nbTresorsMax=0):
                 nbTresorMax le nombre de trésors maximum distribué à chaque joueur
     résultat: le labyrinthe crée
     """
-    labyrinthe={"listedejoueur":ListeJoueurs(nomsJoueurs),"plateau": Plateau(len(nomsJoueurs),nbTresors),"phase":1}
+    labyrinthe={"listedejoueur":ListeJoueurs(nomsJoueurs),"plateau": Plateau(len(nomsJoueurs),nbTresors),"phase":1,"coupInterdit": None }
     distribuerTresors(labyrinthe["listedejoueur"],nbTresors, nbTresorsMax)
     initAleatoireJoueurCourant(labyrinthe["listedejoueur"])
     return labyrinthe
@@ -90,7 +90,7 @@ def getNbTresors(labyrinthe):
     résultat: le nombre de trésors sur le plateau
     """
     cpt=0
-    for l in getPlateau(labyrinthe):
+    for l in labyrinthe["plateau"][0]:
       for c in l:
         if getTresor(c)!=0:
           cpt+=1
@@ -117,7 +117,7 @@ def enleverTresor(labyrinthe,lin,col,numTresor):
                 numTresor: le numéro du trésor à prendre sur la carte
     la fonction ne retourne rien mais modifie le labyrinthe
     """
-    prendreTresorPlateau(labyrinthe["plateau"],lin,col,numTresor)
+    prendreTresorPlateau(labyrinthe["plateau"][0],lin,col,numTresor)
     pass
     
 
@@ -161,7 +161,12 @@ def coupInterdit(labyrinthe,direction,rangee):
                 rangee: le numéro de la ligne ou de la colonne choisie
     résultat: un booléen indiquant si le coup est interdit ou non
     """
-    pass
+    if labyrinthe["coupInterdit"]==None:
+      return False
+    elif labyrinthe["coupInterdit"]==(direction,rangee):
+      return True
+    else:
+      return False
 
 def jouerCarte(labyrinthe,direction,rangee):
     """
@@ -175,18 +180,24 @@ def jouerCarte(labyrinthe,direction,rangee):
                 rangee: le numéro de la ligne ou de la colonne choisie
     Cette fonction ne retourne pas de résultat mais mais à jour le labyrinthe
     """
+    p=labyrinthe["plateau"][0]
     if direction=="N":
-      labyrinth["plateau"][1]=decalageColonneEnHaut(getPlateau(labyrinthe), rangee, getCarteAJouer(labyrinthe))  
-    if direction=="S":
-      labyrinth["plateau"][1]=decalageColonneEnBas(getPlateau(labyrinthe), rangee, getCarteAJouer(labyrinthe))
-    if direction=="E":
-      labyrinth["plateau"][1]=decalageLigneADroite(getPlateau(labyrinthe), rangee, getCarteAJouer(labyrinthe))
-    if direction=="O":
-      labyrinth["plateau"][1]=decalageLigneAGauche(getPlateau(labyrinthe), rangee, getCarteAJouer(labyrinthe))    
-    """
-    ICI il manque la mise à jour de la nouvelle direction interdite 
-    Incompréhension de ce qu'est la direction interdite
-    """
+      x=decalageColonneEnBas(p, rangee, getCarteAJouer(labyrinthe))
+      labyrinthe["plateau"]=p,x
+      labyrinthe["coupInterdit"]=("S",rangee)  
+    elif direction=="S":
+      x=decalageColonneEnHaut(p, rangee, getCarteAJouer(labyrinthe))
+      labyrinthe["plateau"]=p,x
+      labyrinthe["coupInterdit"]=("N",rangee)
+    elif direction=="E":
+      x=decalageLigneAGauche(p, rangee, getCarteAJouer(labyrinthe))
+      labyrinthe["plateau"]=p,x
+      labyrinthe["coupInterdit"]=("O",rangee)
+    elif direction=="O":
+      x=decalageLigneADroite(p, rangee, getCarteAJouer(labyrinthe))
+      labyrinthe["plateau"]=p,x
+      labyrinthe["coupInterdit"]=("E",rangee)
+
 
 
 
@@ -197,7 +208,7 @@ def tournerCarte(labyrinthe,sens='H'):
                 sens: un caractère indiquant le sens dans lequel tourner la carte
      Cette fonction ne retourne pas de résultat mais mais à jour le labyrinthe    
     """
-    if sens=="H":
+    if sens=='H':
       tournerHoraire(getCarteAJouer)
     else:
       tournerAntiHoraire(getCarteAJouer)
@@ -217,7 +228,7 @@ def getCoordonneesTresorCourant(labyrinthe):
     resultat: les coordonnées du trésor à chercher ou None si celui-ci 
               n'est pas sur le plateau
     """
-    return getCoordonneesTresor(labyrinthe["plateau"],getTresorCourant(labyrinthe))
+    return getCoordonneesTresor(labyrinthe["plateau"][0],getTresorCourant(labyrinthe))
 
 
 def getCoordonneesJoueurCourant(labyrinthe):
@@ -227,7 +238,7 @@ def getCoordonneesJoueurCourant(labyrinthe):
     resultat: les coordonnées du joueur courant ou None si celui-ci 
               n'est pas sur le plateau
     """
-    return getCoordonneesJoueur(labyrinthe["plateau"],getNumJoueurCourant(labyrinthe))
+    return getCoordonneesJoueur(labyrinthe["plateau"][0],getNumJoueurCourant(labyrinthe))
 
 
 def executerActionPhase1(labyrinthe,action,rangee):
@@ -246,7 +257,21 @@ def executerActionPhase1(labyrinthe,action,rangee):
               3 si action et rangee sont des entiers positifs
               4 dans tous les autres cas
     """
-    pass
+    if action=="T":
+      tournerHoraire(getCarteAJouer(labyrinthe))
+      return 0
+    elif action in ["N","E","S","O"] and rangee in [1,3,5]:
+      if coupInterdit(labyrinthe,action,rangee)==False:
+        jouerCarte(labyrinthe,action,rangee)
+        changerPhase(labyrinthe)
+        return 1
+      else:
+        return 2
+    elif isinstance(action,int)==True and isinstance(rangee,int)==True:
+      if action>0 and rangee>0:
+        return 3
+    else:
+      return 4
 
 def accessibleDistJoueurCourant(labyrinthe, ligA,colA):
     """
@@ -259,7 +284,16 @@ def accessibleDistJoueurCourant(labyrinthe, ligA,colA):
     résultat: une liste de couples d'entier représentant un chemin que le joueur
               courant atteigne la case d'arrivée s'il existe None si pas de chemin
     """
-    pass
+    c=getCoordonneesJoueurCourant(labyrinthe)
+    x=c[0]
+    y=c[1]
+    print(x, y)
+    if accessible(labyrinthe["plateau"][0],x,y,ligA,colA)==True:
+      return accessibleDist(labyrinthe["plateau"][0],x,y,ligA,colA)
+    else:
+      return None
+
+
 
 def finirTour(labyrinthe):
     """
@@ -271,17 +305,36 @@ def finirTour(labyrinthe):
               1 si le joueur courant a trouvé un trésor mais la partie n'est pas terminée
               2 si le joueur courant a trouvé son dernier trésor (la partie est donc terminée)
     """
+    changerPhase(labyrinthe)
+    i=getCoordonneesTresorCourant(labyrinthe)
+    if getCoordonneesJoueurCourant(labyrinthe)==(i):
+      enleverTresor(labyrinthe,i[0],i[1],getTresorCourant(labyrinthe))
+      joueurCourantTrouveTresor(getListeJoueurs(labyrinthe))
+      if joueurCourantAFini(getListeJoueurs(labyrinthe))==True:
+        return 2
+      else:
+        changerJoueurCourant(getListeJoueurs(labyrinthe))
+        return 1
+    else:
+      changerJoueurCourant(getListeJoueurs(labyrinthe))
+      return 0
     pass
+
 if __name__=="__main__":
-  L=Labyrinthe(["hector","anthony","Jira"],36,0)
+  L=Labyrinthe(["hector","anthony","Jira"],24,0)
   print(getPlateau(L))
   print(getNbParticipants(L))  
   print(getNomJoueurCourant(L))
   print(getNumJoueurCourant(L))
   print(getListeJoueurs(L))
-  print(prendreJoueurCourant(L,0,6))
   print(getPhase(L))
-  print(changerPhase(L))
   print(L,"\n")
   print(getNbTresors(L))
   print(getCarteAJouer(L))
+  print(accessibleDistJoueurCourant(L,0,3))
+  print(executerActionPhase1(L,1,3))
+  print(getCoordonneesJoueurCourant(L))
+  print(getCoordonneesTresorCourant(L))
+  print(getListeJoueurs(L))
+  print(getNumJoueurCourant(L))
+

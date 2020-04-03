@@ -54,28 +54,28 @@ def murNord(c):                                 #marche
     retourne un booléen indiquant si la carte possède un mur au nord
     paramètre: c une carte
     """
-    return c["nord"]==True
+    return c["nord"]
 
 def murSud(c):                                  #marche
     """
     retourne un booléen indiquant si la carte possède un mur au sud
     paramètre: c une carte
     """
-    return c["sud"]==True
+    return c["sud"]
 
 def murEst(c):                                  #marche
     """
     retourne un booléen indiquant si la carte possède un mur à l'est
     paramètre: c une carte
     """
-    return c["est"]==True
+    return c["est"]
 
 def murOuest(c):                                #marche
     """
     retourne un booléen indiquant si la carte possède un mur à l'ouest
     paramètre: c une carte
     """
-    return c["ouest"]==True
+    return c["ouest"]
 
 def getListePions(c):                           #marche
     """
@@ -111,8 +111,7 @@ def possedePion(c,pion):                        #marche
     """
     if pion in c["pions"]:
         return True
-    else:
-        return False
+    return False
 
 
 def getTresor(c):                               #marche
@@ -152,17 +151,11 @@ def prendrePion(c, pion):                       #marche
     paramètres: c une carte
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
-    for i in c["pions"]:
-        if i==pion:
-            c["pions"].pop()
-    print(c["pions"])
-    pass"""
+    """
     aux=[]
-    i=0
-    while i<len(c["pions"]):
-      if c["pions"][i]!=pion:
+    for i in c["pions"]:
+      if i!=pion:
         aux.append(i)
-      i+=1
     c["pions"]=aux
 
 
@@ -173,12 +166,10 @@ def poserPion(c, pion):                         #marche
                 pion un entier compris entre 1 et 4
     Cette fonction modifie la carte mais ne retourne rien
     """
-    verif=False
-    for x in c["pions"]:
-      if x==pion:
-        verif=True
-    if verif!=True:    
-      c["pions"].append(pion)
+    ok=True
+    if pion in c["pions"]:
+	    ok=False   
+    c["pions"].append(pion)
     pass
 
 def tournerHoraire(c):                          #marche
@@ -187,11 +178,11 @@ def tournerHoraire(c):                          #marche
     paramètres: c une carte
     Cette fonction modifie la carte mais ne retourne rien
     """
-    aux=c["nord"]
-    c["nord"]=c["ouest"]
-    c["ouest"]=c["sud"]
-    c["sud"]=c["est"]
-    c["est"]=aux
+    aux=[c["nord"], c["ouest"], c["sud"], c["est"]]
+    c["nord"]=aux[1]
+    c["ouest"]=aux[2]
+    c["sud"]=aux[3]
+    c["est"]=aux[0]
     pass
 
 
@@ -235,15 +226,15 @@ def coderMurs(c):                           #marche
     retourne un entier indice du caractère semi-graphique de la carte
     """
     res=0
-    if c["nord"]==True:
+    if murNord(c):
         res+=1
-    if c["est"]==True:
-        res==10
-    if c["sud"]==True:
-        res==100
-    if c["ouest"]==True:
+    if murEst(c):
+        res+=10
+    if murSud(c):
+        res+=100
+    if murOuest(c):
         res+=1000
-    return res
+    return int(str(res),2)
 
 
 def decoderMurs(c,code):                    #marche
@@ -273,32 +264,7 @@ def toChar(c):                              #marche
     fournit le caractère semi graphique correspondant à la carte (voir la variable listeCartes au début de ce script)
     paramètres c une carte
     """
-    code=coderMurs(c)
-    if code==1100:
-        return '╚'
-    elif code==1010:
-        return '║'
-    elif code==1001:
-        return '╔'
-    elif code==1000:
-        return '╠'
-    elif code==110:
-        return '╝'
-    elif code==101:
-        return '═'
-    elif code==100:
-        return '╩'
-    elif code==11:
-        return '╗'
-    elif code==10:
-        return '╣'
-    elif code==1:
-        return '╦'
-    elif code==0:
-        return '╬'
-    else:
-        return 'Ø'
-
+    return listeCartes[coderMurs(c)]
 
 
 def passageNord(carte1,carte2):             #marche
@@ -308,10 +274,9 @@ def passageNord(carte1,carte2):             #marche
     paramètres carte1 et carte2 deux cartes
     résultat un booléen
     """
-    if carte2["sud"]==False and carte2["sud"]==carte1["nord"]:
+    if carte2["sud"]==False and carte1["nord"]==False:
         return True
-    else:
-        return False
+    return False
 
 
 def passageSud(carte1,carte2):              #marche
@@ -321,10 +286,9 @@ def passageSud(carte1,carte2):              #marche
     paramètres carte1 et carte2 deux cartes
     résultat un booléen
     """
-    if carte2["nord"]==False and carte2["nord"]==carte1["sud"]:
+    if carte2["nord"]==False and carte1["sud"]==False:
         return True
-    else:
-        return False
+    return False
 
 def passageOuest(carte1,carte2):            #marche
     """
@@ -333,10 +297,9 @@ def passageOuest(carte1,carte2):            #marche
     paramètres carte1 et carte2 deux cartes
     résultat un booléen
     """
-    if carte2["est"]==False and carte2["est"]==carte1["ouest"]:
+    if carte2["est"]==False and carte1["ouest"]==False:
         return True
-    else:
-        return False
+    return False
 
 
 def passageEst(carte1,carte2):              #marche
@@ -346,10 +309,9 @@ def passageEst(carte1,carte2):              #marche
     paramètres carte1 et carte2 deux cartes
     résultat un booléen
     """
-    if carte2["ouest"]==False and carte2["ouest"]==carte1["est"]:
+    if carte2["ouest"]==False and carte1["est"]==False:
         return True
-    else:
-        return False
+    return False
 
 c=Carte(True,True,False,False)
 

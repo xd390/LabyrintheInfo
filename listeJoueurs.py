@@ -49,6 +49,7 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
                              de trésor possible  
     cette fonction ne retourne rien mais modifie la liste des joueurs
     """
+    nbJoueurs=getNbJoueurs(joueurs)
     Tresors= list(range(1,nbTresors+1))
     random.shuffle(Tresors)
     if nbTresorMax==0:
@@ -60,33 +61,29 @@ def distribuerTresors(joueurs,nbTresors=24, nbTresorMax=0):
           ajouterTresor(joueurs["listedesjoueurs"][cpt],Tresors[i])
           cpt+=1
           i+=1
-      nbJoueurs=getNbJoueurs(joueurs)
-      """
-      La partie ci-dessous verifie si les trésors on étaient repartis de façon équitable.
-      Et surprime les trésors en trop s'il y a un/des joueur/s qui a/ont en plus
-      """
-      if nbTresors%nbJoueurs!=0:
+    else:
+      i=0
+      out=False
+      while i<len(joueurs["listedesjoueurs"])*nbTresorMax and out==False and i<len(Tresors):
+        cpt=0
+        if len(Tresors)==0:
+            out=True
+        while cpt<len(joueurs["listedesjoueurs"]) and out==False and i<len(Tresors) :
+          ajouterTresor(joueurs["listedesjoueurs"][cpt],Tresors[i])
+          cpt+=1
+          i+=1
+    if nbTresors%nbJoueurs!=0:
         if (nbTresors-1)%nbJoueurs==0:
           tresorTrouve(joueurs["listedesjoueurs"][0])
         elif (nbTresors-2)%nbJoueurs==0:
           tresorTrouve(joueurs["listedesjoueurs"][0])
           tresorTrouve(joueurs["listedesjoueurs"][1])
-        elif (nbTresors-3)%nbJoueurs==0:
+        else:
           tresorTrouve(joueurs["listedesjoueurs"][0])
           tresorTrouve(joueurs["listedesjoueurs"][1])
-          tresorTrouve(joueurs["listedesjoueurs"][2])          
-    if nbTresorMax!=0:
-      i=0
-      out=False
-      while i<(len(joueurs)*nbTresorMax):
-        cpt=0
-        while cpt<len(joueurs) and out==False:
-          ajouterTresor(joueurs["listedesjoueurs"][cpt],Tresors[i])
-          cpt+=1
-          if i>len(Tresors):
-            out=True
-          i+=1
-      
+          tresorTrouve(joueurs["listedesjoueurs"][2])
+
+
 
 def changerJoueurCourant(joueurs):
     """
@@ -132,7 +129,7 @@ def nbTresorsRestantsJoueur(joueurs,numJoueur):
                 numJoueur le numéro du joueur
     résultat: le nombre de trésors que joueur numJoueur doit encore trouver
     """
-    return getNbTresorsRestants(joueurs["listedesjoueurs"][numJoueur])
+    return getNbTresorsRestants(joueurs["listedesjoueurs"][numJoueur-1])
 
 def numJoueurCourant(joueurs):
     """
@@ -140,7 +137,8 @@ def numJoueurCourant(joueurs):
     paramètre: joueurs la liste des joueurs
     résultat: le numéro du joueur courant
     """
-    return joueurs["joueurCourant"]
+    return joueurs["joueurCourant"]+1
+
 
 def nomJoueurCourant(joueurs):
     """
@@ -157,7 +155,7 @@ def nomJoueur(joueurs,numJoueur):
                 numJoueur le numéro du joueur    
     résultat: le nom du joueur numJoueur
     """
-    return getNom(joueurs["listedesjoueurs"][numJoueur])
+    return getNom(joueurs["listedesjoueurs"][numJoueur-1])
 
 def prochainTresorJoueur(joueurs,numJoueur):
     """
@@ -166,7 +164,7 @@ def prochainTresorJoueur(joueurs,numJoueur):
                 numJoueur le numéro du joueur    
     résultat: le prochain trésor du joueur numJoueur (un entier)
     """
-    return prochainTresor(joueurs["listedesjoueurs"][numJoueur])
+    return prochainTresor(joueurs["listedesjoueurs"][numJoueur-1])
 
 def tresorCourant(joueurs):
     """
@@ -193,13 +191,14 @@ if __name__=="__main__":
   print(initAleatoireJoueurCourant(c),"\n")
   print(c,"\n")
   print(ajouterJoueur(c,Joueur("Martin")))
-  print(c)
-  print(distribuerTresors(c,nbTresors=24, nbTresorMax=0))
+  print(c,"coucou")
+  print(distribuerTresors(c,24, 2))
   print(c)
   print(changerJoueurCourant(c))
   print(c)
   print(getNbJoueurs(c))
   print(getJoueurCourant(c))
+  ajouterTresor(getJoueurCourant(c),6)
   print(joueurCourantTrouveTresor(c))
   print(nbTresorsRestantsJoueur(c,2))
   print(numJoueurCourant(c))
@@ -209,3 +208,5 @@ if __name__=="__main__":
   print(c)
   print(tresorCourant(c))
   print(joueurCourantAFini(c))
+  print(numJoueurCourant(c))
+  print(c)
